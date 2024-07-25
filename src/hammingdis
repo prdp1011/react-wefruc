@@ -1,0 +1,28 @@
+Intuition
+The problem requires finding the Hamming distance between two integers, which is the number of positions at which the corresponding bits are different.
+
+Approach
+We can calculate the Hamming distance bit by bit. We extract the least significant bit (LSB) of both numbers using bitwise AND operation with 1. If the bits are different, we increment the count. Then, we right shift both numbers by one bit and repeat the process until both numbers become zero.
+
+Complexity
+Time complexity: O(log(max(x,y))), where x and y are the input integers. The time complexity is determined by the number of bits in the larger of the two numbers.
+Space complexity: O(1), as we are using only a constant amount of extra space.
+Code
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        int bit_x = 0;
+        int bit_y = 0;
+        int count = 0;
+        while (x != 0 || y != 0){
+            bit_x = x & 1;
+            bit_y = y & 1;
+            if (bit_x != bit_y){
+                count++;
+            }
+            x = x >> 1;
+            y = y >> 1;
+        }
+        return count;
+    }
+};
