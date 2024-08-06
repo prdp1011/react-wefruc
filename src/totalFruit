@@ -1,0 +1,55 @@
+class Solution {
+public:
+/* // TLE O(n2)
+    int solve(vector<int>& f, unordered_map<int,int>& mp,int cnt,int index){
+        if(index == f.size()){
+            return cnt;
+        }
+
+        for(int i=index; i<f.size();i++){
+            if(mp.find(f[i]) == mp.end() && mp.size() >= 2)    return cnt;
+            mp[f[i]]++;
+            cnt++;
+            solve(f,mp,cnt,i+1);
+        }
+        return cnt;
+    }
+    int totalFruit(vector<int>& fruits) {
+        int ans = INT_MIN,cnt=0;
+        for(int i=0; i<fruits.size();i++){
+            unordered_map<int,int> mp;
+            ans = max(ans,solve(fruits,mp,cnt,i));
+        }
+        return ans;
+    }
+*/
+
+    int totalFruit(vector<int>& f) {
+        int ans = INT_MIN,cnt=0;
+        int l=0,r=0;
+        unordered_map<int,int> mp;
+        int n = f.size();
+
+        if(n<=2)    return n;
+
+        while(l<n){
+            while(r<n){
+                mp[f[r]]++;
+                cnt++;
+
+                if(mp.size() > 2){
+                    ans = max(ans,cnt-1);
+                    r++;
+                    break;
+                }
+                if(mp.size() <= 2)  ans = max(ans,cnt);
+                r++;
+            }
+            mp[f[l]]--;
+            cnt--;
+            if(mp[f[l]] == 0)   mp.erase(mp.find(f[l]));
+            l++;
+        }
+        return ans;
+    }
+};
